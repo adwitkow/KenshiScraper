@@ -1,0 +1,50 @@
+﻿<Window x:Class="KenshiScraper.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:KenshiScraper"
+        mc:Ignorable="d"
+        Title="Kenshi Scraper" Height="450" Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="32"/>
+            <RowDefinition Height="32"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="128"/>
+            <ColumnDefinition Width="128"/>
+            <ColumnDefinition Width="64" />
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+        <TextBox Name="UrlTextBox" TextWrapping="NoWrap" Grid.Column="3" Grid.Row="0" Grid.ColumnSpan="3" Margin="3" Padding="3" IsReadOnly="True" TextAlignment="Center" />
+        <TextBox Name="TitleTextBox" TextWrapping="NoWrap" Grid.Column="6" Grid.Row="0" Grid.ColumnSpan="3" Margin="3" Padding="3" IsReadOnly="True" TextAlignment="Center" />
+        <TextBox Name="DateTextBox" TextWrapping="NoWrap" Grid.Column="3" Grid.Row="1" Grid.ColumnSpan="2" Margin="3" Padding="3" IsReadOnly="True" TextAlignment="Center" />
+        <TextBox Name="AuthorTextBox" TextWrapping="NoWrap" Grid.Column="5" Grid.Row="1" Grid.ColumnSpan="2" Margin="3" Padding="3" IsReadOnly="True" TextAlignment="Center" />
+        <TextBox Name="PlatformTextBox" TextWrapping="NoWrap" Grid.Column="7" Grid.Row="1" Grid.ColumnSpan="2" Margin="3" Padding="3" IsReadOnly="True" TextAlignment="Center" />
+        <TextBox Name="PreviewTextBox" TextWrapping="Wrap" Grid.Column="3" Grid.Row="2" Grid.ColumnSpan="6" Margin="3" Padding="3" IsReadOnly="True" />
+        <Button Content="Save" Click="SaveButton_Click" Grid.Column="2" Grid.Row="0" Margin="3"/>
+        <Button Content="Import" Click="ImportButton_Click" Grid.Column="2" Grid.Row="1" Margin="3" />
+        <Button Name="BlogScraperButton" Click="ScraperButton_Click" Grid.Row="0" Grid.RowSpan="2" Margin="3">
+            <TextBlock Text="Scrape lofigames blog" TextWrapping="Wrap" Padding="5" TextAlignment="Center"/>
+        </Button>
+        <Button Name="SteamScraperButton" Click="ScraperButton_Click" Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" Margin="3">
+            <TextBlock Text="Scrape Steam announcements" TextWrapping="Wrap" Padding="5" TextAlignment="Center"/>
+        </Button>
+        <ListView Name="MainListView" Grid.Row="2" Margin="3" Grid.ColumnSpan="3" MouseDoubleClick="MainListView_MouseDoubleClick">
+            <ListView.View>
+                <GridView AllowsColumnReorder="true">
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=Date, StringFormat=yyyy-MM-dd}" Header="Posted on"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=Author}" Header="Author"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=Title}" Header="Title"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+    </Grid>
+</Window>
