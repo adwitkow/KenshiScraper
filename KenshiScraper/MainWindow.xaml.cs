@@ -55,12 +55,12 @@ namespace KenshiScraper
 
             var converter = new MediaWikiConverter();
 
-            PreviewTextBox.Text = converter.ConvertFromHtml(item.HtmlBody);
-            UrlTextBox.Text = item.Url;
-            TitleTextBox.Text = item.Title;
-            AuthorTextBox.Text = item.Author;
-            PlatformTextBox.Text = item.Source;
-            DateTextBox.Text = item.Date.ToString("MM/dd/yyyy");
+            PreviewTextBox.Text = converter.ConvertFromHtml(item.HtmlBody).Trim();
+            UrlTextBox.Text = item.Url.Trim();
+            TitleTextBox.Text = item.Title.Trim();
+            AuthorTextBox.Text = item.Author.Trim();
+            PlatformTextBox.Text = item.Source.Trim();
+            DateTextBox.Text = item.Date.ToString("MMMM d, yyyy");
         }
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)

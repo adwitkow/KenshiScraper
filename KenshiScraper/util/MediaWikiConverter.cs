@@ -66,6 +66,11 @@ namespace KenshiScraper
                     Prefix = "''",
                     Suffix = "''"
                 },
+                ["i"] = new MediaWikiNode()
+                {
+                    Prefix = "''",
+                    Suffix = "''"
+                },
                 ["img"] = new MediaWikiNode()
                 {
                     Prefix = "[[File:",
