@@ -42,38 +42,61 @@ namespace KenshiScraper
 
             foreach (var item in news.Items)
             {
-                if (item.FeedType == 0)
+                var tries = 0;
+                var success = false;
+                while (tries < 3 && !success)
                 {
-                    Console.WriteLine($"{item.Url}: {item.FeedType}");
-                    continue;
+                    try
+                    {
+                        var article = await ScrapeArticle(item);
+                        if (article != null)
+                        {
+                            results.Add(article);
+                        }
+                        success = true;
+                    }
+                    catch
+                    {
+                        await Task.Delay(30000);
+                        tries++;
+                    }
                 }
-
-                Page[] pages = await browser.PagesAsync();
-                Page page = pages[0];
-
-                await page.GoToAsync(item.Url); // NavigationException
-                var viewButton = await page.QuerySelectorAsync("div.partnereventshared_Button_1ABCO");
-                if (viewButton != null)
-                {
-                    await viewButton.ClickAsync();
-                }
-
-                string body = await page.WaitForSelectorAsync(".EventDetailsBody").EvaluateFunctionAsync<string>("t => t.innerHTML");
-                body = body.PrettifyHtml();
-                body = HttpUtility.HtmlDecode(body);
-
-                results.Add(new Article()
-                {
-                    Title = item.Title,
-                    Author = item.Author,
-                    Date = DateTimeOffset.FromUnixTimeSeconds(item.Date).DateTime,
-                    Url = item.Url,
-                    HtmlBody = body,
-                    Source = "Steam"
-                });
             }
 
             return results.ToArray();
+        }
+
+        private async Task<Article> ScrapeArticle(SteamNewsItem item)
+        {
+            if (item.FeedType == 0)
+            {
+                Console.WriteLine($"{item.Url}: {item.FeedType}");
+                return null;
+            }
+
+            Page[] pages = await browser.PagesAsync();
+            Page page = pages[0];
+
+            await page.GoToAsync(item.Url); // NavigationException
+            var viewButton = await page.QuerySelectorAsync("div.partnereventshared_Button_1ABCO");
+            if (viewButton != null)
+            {
+                await viewButton.ClickAsync();
+            }
+
+            string body = await page.WaitForSelectorAsync(".EventDetailsBody").EvaluateFunctionAsync<string>("t => t.innerHTML");
+            body = body.PrettifyHtml();
+            body = HttpUtility.HtmlDecode(body);
+
+            return new Article()
+            {
+                Title = item.Title,
+                Author = item.Author,
+                Date = DateTimeOffset.FromUnixTimeSeconds(item.Date).DateTime,
+                Url = item.Url,
+                HtmlBody = body,
+                Source = "Steam"
+            };
         }
     }
 }
