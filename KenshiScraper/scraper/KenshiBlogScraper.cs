@@ -69,7 +69,20 @@ namespace KenshiScraper
 
             foreach (var article in newResults)
             {
-                await page.GoToAsync(article.Url);
+                var tries = 0;
+                var success = false;
+                while (tries < 3 && !success)
+                {
+                    try
+                    {
+                        await page.GoToAsync(article.Url);
+                        success = true;
+                    }
+                    catch
+                    {
+                        tries++;
+                    }
+                }
                 var body = await page.QuerySelectorAsync("div.post-single-content");
                 await CleanBlogBody(body);
 
