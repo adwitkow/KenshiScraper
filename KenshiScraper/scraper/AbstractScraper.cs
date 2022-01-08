@@ -13,7 +13,7 @@ namespace KenshiScraper
         public async Task DownloadChromium()
         {
             var fetcher = new BrowserFetcher();
-            await fetcher.DownloadAsync(BrowserFetcher.DefaultRevision);
+            await fetcher.DownloadAsync();
         }
 
         public abstract Task<IEnumerable<Article>> ScrapeAsync(IEnumerable<Article> articles);
@@ -22,6 +22,7 @@ namespace KenshiScraper
         {
             if (browser == null || page == null)
             {
+                await DownloadChromium();
                 browser = await Puppeteer.LaunchAsync(new LaunchOptions() { Headless = false });
                 var pages = await browser.PagesAsync();
                 page = pages[0];
