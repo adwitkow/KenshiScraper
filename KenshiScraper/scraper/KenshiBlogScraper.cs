@@ -58,7 +58,7 @@ namespace KenshiScraper
                 var timestamp = DateTime.ParseExact(timestampText.Result, "Po\\s\\te\\d On MMMM d, yyyy",
                                        System.Globalization.CultureInfo.InvariantCulture);
 
-                article.Title = title.Result;
+                article.Title = title.Result.Trim();
                 article.Author = author.Result;
                 article.Date = timestamp;
                 article.Url = anchor.Result;
